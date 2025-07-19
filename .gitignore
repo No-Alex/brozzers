@@ -1,2 +1,5 @@
+# pytest
+.pytest_cache/
+
 # local data
 .*/
