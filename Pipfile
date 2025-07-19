@@ -20,8 +20,3 @@ flake8-pytest-style = "*"
 flake8-requirements = "*"
 flake8-return = "*"
 pytest = "*"
-
-[dev-packages]
-
-[requires]
-python_version = "3.10"
