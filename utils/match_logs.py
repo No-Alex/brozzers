@@ -5,6 +5,9 @@
     - требование N
 
 Notes:
+    для отладки использовал файл
+    https://www.gutenberg.org/cache/epub/12655/pg12655.txt
+
     концепции:
         - регулярные выражения
         - интерфейс командной строки
@@ -25,6 +28,7 @@ Notes:
 """
 
 
+import argparse
 import re
 from pathlib import Path
 
@@ -32,8 +36,23 @@ from pathlib import Path
 def get_parameters():
     """Возвращает значения, переданные параметрам утилиты.
 
+    TODO
+        - doctest
+
+
     """
-    raise NotImplementedError('требуется реализация')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('search_pattern')
+    parser.add_argument('input_file')
+    parser.add_argument('output_file')
+    args = parser.parse_args()
+
+    data = {
+        'search_pattern': args.search_pattern,
+        'input_file': Path(args.input_file),
+        'output_file': Path(args.output_file),
+    }
+    return data
 
 
 def get_matches(pattern: str, filename: Path) -> str:
@@ -64,5 +83,9 @@ def get_view(data: list[str]):
 
 
 if __name__ == '__main__':
-    file_to_search = Path('.data/some_log.txt')
-    get_view(get_matches('exciting', file_to_search))
+    params = get_parameters()
+    pattern_to_search = params['search_pattern']
+    file_to_search = params['input_file']
+    report_to_write = params['output_file']
+    results = get_matches(pattern_to_search, file_to_search)
+
