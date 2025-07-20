@@ -13,6 +13,7 @@
     22, 21, 20, 19, 18, 17, 16, 15
 """
 
+
 def create_range_decr_2_int(num_max, num_min):
     """На вход функция получает два целых числа
     Первое заведомо больше второго
@@ -21,6 +22,7 @@ def create_range_decr_2_int(num_max, num_min):
     Выводит результат через запятую.
     """
     print(list(range(num_max, num_min - 1, -1)))
+
 
 startstop = "7, 9"
 start, stop = list(map(int, startstop.split(", ")))
