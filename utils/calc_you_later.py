@@ -1,8 +1,30 @@
-"""Предоставляет базовые арифметические операции.
+"""cli калькулятор для финансов
 
-Для выполнения теста используй инструкцию
+Notes:
+    - работа только с целыми числами для сохранения точности расчета
+    - принимаемые и возвращаемые значения - в диапазоне [-2**31; 2**31-1]
+    - арифметические операции
+    - операция расчета дохода по вкладу
+    - требование N-1
+    - требование N
 
-python arithmetic.py -v
+    
+    Параметры для базовых операций:
+        - операнд 1
+        - оператор
+        - операнд 2
+
+    Базовые операции:
+        - сложение: add
+        - произведение: mult
+        TODO
+
+Examples:
+    Запуск встроенного doctest
+    python -v path/to/test_module.py
+
+    Запуск doctest средствами pytest
+    pytest --doctest-modules path/to/test_module.py
 """
 
 def add(n: int, m: int) -> int:
@@ -58,7 +80,19 @@ def mult(n: int, m: int) -> int:
     raise NotImplementedError('функция не определена')
 
 
-if __name__ == '__main__':
+def get_parameters():
+    """Верни считанные значения параметров.
+
+    TODO
+    >>> get_parameters()
+
+    """
+
+
+def main():
     import doctest
     doctest.testmod()
+
+if __name__ == '__main__':
+    main()
 
