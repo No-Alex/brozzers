@@ -26,6 +26,9 @@ Examples:
     Запуск doctest средствами pytest
     pytest --doctest-modules path/to/test_module.py
 """
+import argparse
+import sys
+
 
 def add(n: int, m: int) -> int:
     """Верни сумму двух целых чисел.
@@ -80,19 +83,63 @@ def mult(n: int, m: int) -> int:
     raise NotImplementedError('функция не определена')
 
 
-def get_parameters():
-    """Верни считанные значения параметров.
+def get_operator_and_values(args=None):
+    """Получи три параметра командной строки.
 
-    TODO
-    >>> get_parameters()
+    Оператор и два числа
+
+    >>> get_operator_and_values()
+
+    >>> get_operator_and_values()
+    Traceback (most recent call last):
+        ...
+    ArgumentError
+
+    >>> 
 
     """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('operation',
+                        type=str,
+                        choices=['add', 'mult', 'sub', 'div'],
+                        help='оператор')
+    parser.add_argument('num_1', type=int, help='первое число')
+    parser.add_argument('num_2', type=int, help='второе число')
+
+    parser.add_argument('-v', '--verbose',
+                        type=int,
+                        choices=[0, 1, 2],
+                        help='сделать сообщение подробнее')
+
+    args = parser.parse_args(args)
+
+    # TODO
+    # if args.verbose:
+    #     logger.debug(f'Запрошен подробный вывод уровня {args.verbose}')
+
+    return {
+        'operation': args.operation,
+        'num_1': args.num_1,
+        'num_2': args.num_2,
+        'verbose': args.verbose,
+    }
 
 
-def main():
-    import doctest
-    doctest.testmod()
+def main(args=None):
+    user_input = get_operator_and_values(args)
+    verbose = user_input['verbose']
+    operation = user_input['operation']
+    num_1 = user_input['num_1']
+    num_2 = user_input['num_2']
+    if operation == 'add':
+        if verbose == 2:
+            print(f'Сумма {num_1} и {num_2} равна {add(num_1, num_2)}')
+        elif verbose == 1:
+            print(f'{num_1} + {num_2} = {add(num_1, num_2)}')
+        else:
+            print(add(num_1, num_2))
+
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
 
