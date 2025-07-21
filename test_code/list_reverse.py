@@ -15,21 +15,23 @@
 
 
 def create_range_decr_2_int(num_max, num_min):
-    """На вход функция получает два целых числа
+    """
+    На вход функция получает два целых числа
     Первое заведомо больше второго
     Формирует диапазон чисел с шагом 1 в обратном порядке
     от наибольшего числа к наименьшему (включительно).
     Выводит результат через запятую.
     """
-    print(list(range(num_max, num_min - 1, -1)))
+    return list(range(num_max, num_min - 1, -1))
 
 
-startstop = "7, 9"
-start, stop = list(map(int, startstop.split(", ")))
-if stop > start:
-    bufer = stop
-    stop = start
-    start = bufer
+def main():
+    startstop = "7, 9"
+    start, stop = list(map(int, startstop.split(", ")))
+    if stop > start:
+        stop, start = start, stop
+    assert create_range_decr_2_int(start, stop) == [9, 8, 7]
+    assert create_range_decr_2_int(start, stop) == [9, 8, 6], "Wrong result"
 
-# call function
-create_range_decr_2_int(start, stop)
+if __name__ == "__main__":
+    main()
