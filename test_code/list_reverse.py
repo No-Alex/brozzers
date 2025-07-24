@@ -20,18 +20,25 @@ def create_range_decr_2_int(num_max, num_min):
     Первое заведомо больше второго
     Формирует диапазон чисел с шагом 1 в обратном порядке
     от наибольшего числа к наименьшему (включительно).
-    Выводит результат через запятую.
     """
     return list(range(num_max, num_min - 1, -1))
 
 
 def main():
+    """
+    функция ничего не получает на вход
+    в ней выполняется получение двух целых значений (сейчас - простым присвоением)
+    они упорядочиваются по значениям в обратном порядке
+    далее вызывается вторая функция create_range_decr_2_int(...)
+    для создания списка
+    """
     startstop = "7, 9"
     start, stop = list(map(int, startstop.split(", ")))
     if stop > start:
         stop, start = start, stop
     assert create_range_decr_2_int(start, stop) == [9, 8, 7]
     assert create_range_decr_2_int(start, stop) == [9, 8, 6], "Wrong result"
+
 
 if __name__ == "__main__":
     main()
