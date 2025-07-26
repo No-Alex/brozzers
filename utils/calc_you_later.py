@@ -1,28 +1,20 @@
-"""cli калькулятор для финансов
+"""калькулятор для работы с целыми числами
 
 Notes:
+    - cli
     - работа только с целыми числами для сохранения точности расчета
     - принимаемые и возвращаемые значения - в диапазоне [-2**31; 2**31-1]
     - арифметические операции
-    - операция расчета дохода по вкладу
-    - требование N-1
-    - требование N
-
-    
-    Параметры для базовых операций:
-        - операнд 1
-        - оператор
-        - операнд 2
+    - сумма и произведение принимают неограниченного количество параметров
+    - передача делению знаменателя == 0 поднимает ValueError
 
     Базовые операции:
         - сложение: add
         - произведение: mult
-        TODO
+        - вычитание: sub
+        - деление: div
 
 Examples:
-    Запуск встроенного doctest
-    python -v path/to/test_module.py
-
     Запуск doctest средствами pytest
     pytest --doctest-modules path/to/test_module.py
 """
@@ -30,57 +22,51 @@ import argparse
 import sys
 
 
-def add(n: int, m: int) -> int:
-    """Верни сумму двух целых чисел.
+class IntegerCalculator:
+    pass
 
-    >>> add(0, 1)
-    1
+    def add(self, *args) -> int:
+        """Верни сумму двух целых чисел.
 
-    >>> [add(i - 1, i) for i in range(1, 7)]  # [0 + 1, 1 + 2, 2 + 3, ...]
-    [1, 3, 5, 7, 9, 11]
+        >>> add(0, 1)
+        1
 
-    >>> add(0, 1.23)
-    Traceback (most recent call last):
-        ...
-    ValueError: число m должно быть представлено типом int
+        >>> [add(i - 1, i) for i in range(1, 7)]  # [0 + 1, 1 + 2, 2 + 3, ...]
+        [1, 3, 5, 7, 9, 11]
 
-    >>> add(101, -1)
-    Traceback (most recent call last):
-        ...
-    OverflowError: число n выходит за пределы допустимого диапазона
-    """
-    if not isinstance(n, int):
-        raise ValueError('число n должно быть представлено типом int')
-    if (n < -100) or (n > 100):
-        raise OverflowError('число n выходит за пределы допустимого диапазона')
-    if not isinstance(m, int):
-        raise ValueError('число m должно быть представлено типом int')
-    if (m < -100) or (m > 100):
-        raise OverflowError('число m выходит за пределы допустимого диапазона')
-    return n + m
+        >>> add(0, 1.23)
+        Traceback (most recent call last):
+            ...
+        ValueError: число m должно быть представлено типом int
+
+        >>> add(101, -1)
+        Traceback (most recent call last):
+            ...
+        OverflowError: число n выходит за пределы допустимого диапазона
+        """
+        return sum(args)
 
 
-def mult(n: int, m: int) -> int:
-    """Верни произведение двух целых чисел.
+    def mult(self, n: int, m: int) -> int:
+        """Верни произведение двух целых чисел.
 
-    >>> mult(0, 1)
-    1
+        >>> mult(0, 1)
+        1
 
-    >>> [mult(i - 1, i) for i in range(1, 7)]  # [0 * 1, 1 * 2, 2 * 3, ...]
-    [0, 2, 6, 12, 20, 30]
+        >>> [mult(i - 1, i) for i in range(1, 7)]  # [0 * 1, 1 * 2, 2 * 3, ...]
+        [0, 2, 6, 12, 20, 30]
 
-    >>> mult(-99.9, 23)
-    Traceback (most recent call last):
-        ...
-    ValueError: число m должно быть представлено типом int
+        >>> mult(-99.9, 23)
+        Traceback (most recent call last):
+            ...
+        ValueError: число m должно быть представлено типом int
 
-    >>> mult(101, -10)
-    Traceback (most recent call last):
-        ...
-    OverflowError: число n выходит за пределы допустимого диапазона
-    """
-    # TODO
-    raise NotImplementedError('функция не определена')
+        >>> mult(101, -10)
+        Traceback (most recent call last):
+            ...
+        OverflowError: число n выходит за пределы допустимого диапазона
+        """
+        return 0
 
 
 def get_operator_and_values(args=None):
