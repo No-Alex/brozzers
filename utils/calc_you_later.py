@@ -1,32 +1,28 @@
-"""калькулятор для работы с целыми числами
+"""Калькулятор для работы с целыми числами
 
 Notes:
-    - cli
-    - работа только с целыми числами для сохранения точности расчета
-    - принимаемые и возвращаемые значения - в диапазоне [-2**31; 2**31-1]
-    - арифметические операции
-    - сумма и произведение принимают неограниченного количество параметров
-    - передача делению знаменателя == 0 поднимает ValueError
+    - принимаемые значения - целые числа в диапазоне [-2**16; 2**16-1]
+      - выход за допустимый диапазон поднимает OutOfRangeError
+    - операции
+      - сложение: add
+        - принимает неограниченное количество параметров
+      - произведение: mult
+        - принимает неограниченное количество параметров
+      - вычитание: sub
+        - принимает два параметра
+      - деление: div
+        - принимает два параметра
+        - передача делению знаменателя == 0 поднимает ValueError
 
-    Базовые операции:
-        - сложение: add
-        - произведение: mult
-        - вычитание: sub
-        - деление: div
-
-Examples:
-    Запуск doctest средствами pytest
-    pytest --doctest-modules path/to/test_module.py
 """
 import argparse
 import sys
+from functools import reduce
 
 
 class IntegerCalculator:
-    pass
-
     def add(self, *args) -> int:
-        """Верни сумму двух целых чисел.
+        """Верни сумму целых чисел.
 
         >>> add(0, 1)
         1
@@ -46,9 +42,14 @@ class IntegerCalculator:
         """
         return sum(args)
 
+    def sub(self, n: int, m: int) -> int:
+        """Верни разность двух целых чисел.
 
-    def mult(self, n: int, m: int) -> int:
-        """Верни произведение двух целых чисел.
+        """
+        return n - m
+
+    def mult(self, *args) -> int:
+        """Верни произведение целых чисел.
 
         >>> mult(0, 1)
         1
@@ -66,66 +67,24 @@ class IntegerCalculator:
             ...
         OverflowError: число n выходит за пределы допустимого диапазона
         """
-        return 0
+        return reduce(lambda x, y: x*y, args)
 
 
-def get_operator_and_values(args=None):
-    """Получи три параметра командной строки.
 
-    Оператор и два числа
+class Error(BaseException):
+    pass
 
-    >>> get_operator_and_values()
+class OutOfRangeError(Error):
+    def __init__(self, message: str):
+        self.message = message
 
-    >>> get_operator_and_values()
-    Traceback (most recent call last):
-        ...
-    ArgumentError
-
-    >>> 
-
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('operation',
-                        type=str,
-                        choices=['add', 'mult', 'sub', 'div'],
-                        help='оператор')
-    parser.add_argument('num_1', type=int, help='первое число')
-    parser.add_argument('num_2', type=int, help='второе число')
-
-    parser.add_argument('-v', '--verbose',
-                        type=int,
-                        choices=[0, 1, 2],
-                        help='сделать сообщение подробнее')
-
-    args = parser.parse_args(args)
-
-    # TODO
-    # if args.verbose:
-    #     logger.debug(f'Запрошен подробный вывод уровня {args.verbose}')
-
-    return {
-        'operation': args.operation,
-        'num_1': args.num_1,
-        'num_2': args.num_2,
-        'verbose': args.verbose,
-    }
+def verify_range(*args):
+    """Проверяю вхождение переданных значений в ожидаемый интервал."""
+    for num in args:
+        if num < -2**16 or num > (2**16 - 1):
+            raise OutOfRangeError(f'Число {num} находится вне допустимого диапазона')
 
 
-def main(args=None):
-    user_input = get_operator_and_values(args)
-    verbose = user_input['verbose']
-    operation = user_input['operation']
-    num_1 = user_input['num_1']
-    num_2 = user_input['num_2']
-    if operation == 'add':
-        if verbose == 2:
-            print(f'Сумма {num_1} и {num_2} равна {add(num_1, num_2)}')
-        elif verbose == 1:
-            print(f'{num_1} + {num_2} = {add(num_1, num_2)}')
-        else:
-            print(add(num_1, num_2))
-
-
-if __name__ == '__main__':
-    sys.exit(main())
+def calc_runner():
+    some_input = (-2**16 - 1, 0)
 
