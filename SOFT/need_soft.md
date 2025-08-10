@@ -1,16 +1,16 @@
-Python 3.13 + IDLE
+> Python 3.13 + IDLE
 - интерепретатор, версия рекомендованная
-PyCharm 2022.2.3
+> PyCharm 2022.2.3
 - интегрированная среда разработки Python
-Git Bash
+> Git Bash
 - консоль работы с Git
-ThunderBird
+> ThunderBird
 - почтовый клиент
-KeePassXC
+> KeePassXC
 - менеджер паролей
-Telegram
+> Telegram
 - мессенджер-коммуникатор-ВКС
-FireFox
+> FireFox
 - браузер актуальной версии
-Файловый менеджер
+> Файловый менеджер
 - любой привычный
