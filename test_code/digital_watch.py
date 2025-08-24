@@ -37,6 +37,10 @@ print(actual_3)
 actual_3 = "%s:%s" % (s_watch_hours, s_watch_minutes)
 print(actual_3)
 
+# tuple (кортеж)
+actual_tuple = (s_watch_hours, ":", s_watch_minutes)
+for count in range(3):
+    print(actual_tuple[count], end="")
 """
 expected = "13:05"
 assert actual == expected
